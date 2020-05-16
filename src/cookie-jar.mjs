@@ -1,4 +1,4 @@
-import {promises as fs} from "fs";
+import RNFS from "react-native-fs";
 import url from "url";
 import Cookie from "./cookie.mjs";
 import {paramError, CookieParseError} from "./errors.mjs";
@@ -88,12 +88,12 @@ export default class CookieJar {
     async load(file = this.file) {
         if(typeof file !== "string")
             throw new Error("No file has been specified for this cookie jar!");
-        JSON.parse(await fs.readFile(file)).forEach(c => this.addCookie(Cookie.fromObject(c)));
+        JSON.parse(await RNFS.readFile(`${RNFS.DocumentDirectoryPath}/${file}`)).forEach(c => this.addCookie(Cookie.fromObject(c)));
     }
     async save(file = this.file) {
         if(typeof file !== "string")
             throw new Error("No file has been specified for this cookie jar!");
         // only save cookies that haven't expired
-        await fs.writeFile(this.file, JSON.stringify([...this.cookiesValid(false)]));
+        await RNFS.writeFile(`${RNFS.DocumentDirectoryPath}/${this.file}`, JSON.stringify([...this.cookiesValid(false)]))
     }
 };

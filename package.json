@@ -1,6 +1,6 @@
 {
-  "name": "node-fetch-cookies",
-  "version": "1.3.5",
+  "name": "node-fetch-cookies-rn",
+  "version": "1.0.0",
   "description": "node-fetch wrapper that adds support for cookie-jars",
   "main": "src/index.mjs",
   "engines": {
@@ -14,21 +14,24 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jkhsjdhjs/node-fetch-cookies.git"
+    "url": "git+https://github.com/sonroyaalmerol/node-fetch-cookies-rn.git"
   },
   "keywords": [
     "cookie",
     "cookie-jar",
+    "react-native",
     "node-fetch",
     "fetch"
   ],
-  "author": "jkhsjdhjs",
+  "author": "sonroyaalmerol",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jkhsjdhjs/node-fetch-cookies/issues"
+    "url": "https://github.com/sonroyaalmerol/node-fetch-cookies-rn/issues"
   },
-  "homepage": "https://github.com/jkhsjdhjs/node-fetch-cookies#readme",
+  "homepage": "https://github.com/sonroyaalmerol/node-fetch-cookies-rn#readme",
   "dependencies": {
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.0",
+    "react-native-fs": "^2.16.6",
+    "url": "^0.11.0"
   }
 }
