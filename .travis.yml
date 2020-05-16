@@ -4,4 +4,4 @@ node_js:
     - lts/*
     - 11.14.0
 script:
-    - node --experimental-modules test/index.mjs
+    - node --experimental-modules test/index.js

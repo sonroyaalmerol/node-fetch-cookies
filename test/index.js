@@ -1,5 +1,5 @@
-import cookie from "./cookie.mjs";
-import errors from "./errors.mjs";
+import cookie from "./cookie.js";
+import errors from "./errors.js";
 
 class Test {
     constructor(name, fnc) {
