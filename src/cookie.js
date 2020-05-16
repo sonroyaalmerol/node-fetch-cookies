@@ -1,10 +1,14 @@
 const url = require("url");
+const { parseDomain } = require("parse-domain");
 const { paramError, CookieParseError } = require("./errors.js");
 
 const validateHostname = (cookieHostname, requestHostname, subdomains) => {
     cookieHostname = cookieHostname.toLowerCase();
     requestHostname = requestHostname.toLowerCase();
-    if(requestHostname === cookieHostname || (subdomains && requestHostname.endsWith("." + cookieHostname)))
+    const {cookieDomain, cookieTopLevelDomains} = parseDomain(cookieHostname)
+    const {requestDomain, requestTopLevelDomains} = parseDomain(requestHostname)
+    var condition = cookieDomain === requestDomain && cookieTopLevelDomains === requestTopLevelDomains;
+    if(condition || (subdomains && requestHostname.endsWith("." + cookieHostname)))
         return true;
     return false;
 };
@@ -37,16 +41,13 @@ class Cookie {
 
         // check if url is valid
         new url.URL(requestURL);
-
         const splitted = str.split("; ");
         [this.name, this.value] = splitN(splitted[0], "=", 1);
         if(!this.name)
             throw new CookieParseError("Invalid cookie name \"" + this.name + "\"!");
         if(this.value.startsWith("\"") && this.value.endsWith("\""))
             this.value = this.value.slice(1, -1);
-
         const parsedURL = url.parse(requestURL);
-
         for(let i = 1; i < splitted.length; i++) {
             let [k, v] = splitN(splitted[i], "=", 1);
             k = k.toLowerCase();

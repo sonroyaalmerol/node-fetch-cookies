@@ -6,7 +6,7 @@ var RNFS = null
 try {
     RNFS = require("react-native-fs");
 } catch (err) {
-    console.log('unable to import rnfs... disabling save and load')
+    RNFS = null
 }
 
 class CookieJar {
