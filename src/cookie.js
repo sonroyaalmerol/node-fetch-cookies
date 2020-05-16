@@ -1,5 +1,5 @@
 const url = require("url");
-const { paramError, CookieParseError } = require("./errors.mjs");
+const { paramError, CookieParseError } = require("./errors.js");
 
 const validateHostname = (cookieHostname, requestHostname, subdomains) => {
     cookieHostname = cookieHostname.toLowerCase();
