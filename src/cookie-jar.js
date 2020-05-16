@@ -1,7 +1,13 @@
-const RNFS = require("react-native-fs");
 const url = require("url");
 const Cookie = require("./cookie.js");
 const { paramError, CookieParseError } = require("./errors.js");
+var RNFS = null
+
+try {
+    RNFS = require("react-native-fs");
+} catch (err) {
+    console.notif('unable to import rnfs... disabling save and load')
+}
 
 class CookieJar {
     constructor(file, flags = "rw", cookies, cookieIgnoreCallback) {
@@ -86,15 +92,23 @@ class CookieJar {
         validCookies.forEach(c => this.addCookie(c));
     }
     async load(file = this.file) {
-        if(typeof file !== "string")
-            throw new Error("No file has been specified for this cookie jar!");
-        JSON.parse(await RNFS.readFile(`${RNFS.DocumentDirectoryPath}/${file}`)).forEach(c => this.addCookie(Cookie.fromObject(c)));
+        if (RNFS) {
+            if(typeof file !== "string")
+                throw new Error("No file has been specified for this cookie jar!");
+            JSON.parse(await RNFS.readFile(`${RNFS.DocumentDirectoryPath}/${file}`)).forEach(c => this.addCookie(Cookie.fromObject(c)));
+        } else {
+            throw new Error("Failed to load RNFS!");
+        }
     }
     async save(file = this.file) {
-        if(typeof file !== "string")
-            throw new Error("No file has been specified for this cookie jar!");
-        // only save cookies that haven't expired
-        await RNFS.writeFile(`${RNFS.DocumentDirectoryPath}/${this.file}`, JSON.stringify([...this.cookiesValid(false)]))
+        if (RNFS) {
+            if(typeof file !== "string")
+                throw new Error("No file has been specified for this cookie jar!");
+            // only save cookies that haven't expired
+            await RNFS.writeFile(`${RNFS.DocumentDirectoryPath}/${this.file}`, JSON.stringify([...this.cookiesValid(false)]))
+        } else {
+            throw new Error("Failed to load RNFS!");
+        }
     }
 };
 
