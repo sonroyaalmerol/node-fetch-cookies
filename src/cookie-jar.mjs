@@ -1,9 +1,9 @@
-import RNFS from "react-native-fs";
-import url from "url";
-import Cookie from "./cookie.mjs";
-import {paramError, CookieParseError} from "./errors.mjs";
+const RNFS = require("react-native-fs");
+const url = require("url");
+const Cookie = require("./cookie.mjs");
+const { paramError, CookieParseError } = require("./errors.mjs");
 
-export default class CookieJar {
+class CookieJar {
     constructor(file, flags = "rw", cookies, cookieIgnoreCallback) {
         if(file && typeof file !== "string")
             throw paramError("Second", "file", "new CookieJar()", "string");
@@ -97,3 +97,5 @@ export default class CookieJar {
         await RNFS.writeFile(`${RNFS.DocumentDirectoryPath}/${this.file}`, JSON.stringify([...this.cookiesValid(false)]))
     }
 };
+
+module.exports = CookieJar

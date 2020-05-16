@@ -1,9 +1,9 @@
-import _fetch from "node-fetch";
-import CookieJar from "./cookie-jar.mjs";
-import Cookie from "./cookie.mjs";
-import {paramError, CookieParseError} from "./errors.mjs"
+const _fetch = require("node-fetch");
+const CookieJar = require("./cookie-jar.mjs");
+const Cookie = require("./cookie.mjs");
+const { paramError, CookieParseError } = require("./errors.mjs");
 
-async function fetch(cookieJars, url, options) {
+const fetch = async (cookieJars, url, options) => {
     let cookies = "";
     const addValidFromJars = jars => {
         // since multiple cookie jars can be passed, filter duplicates by using a set of cookie names
@@ -47,4 +47,4 @@ async function fetch(cookieJars, url, options) {
     return result;
 }
 
-export {fetch, CookieJar, Cookie, CookieParseError};
+module.exports = {fetch, CookieJar, Cookie, CookieParseError};

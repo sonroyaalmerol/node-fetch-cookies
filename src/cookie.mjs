@@ -1,5 +1,5 @@
-import url from "url";
-import {paramError, CookieParseError} from "./errors.mjs";
+const url = require("url");
+const { paramError, CookieParseError } = require("./errors.mjs");
 
 const validateHostname = (cookieHostname, requestHostname, subdomains) => {
     cookieHostname = cookieHostname.toLowerCase();
@@ -28,7 +28,7 @@ const splitN = (str, sep, n) => {
     return splitted;
 };
 
-export default class Cookie {
+class Cookie {
     constructor(str, requestURL) {
         if(typeof str !== "string")
             throw paramError("First", "str", "new Cookie()", "string");
@@ -132,3 +132,5 @@ export default class Cookie {
         return true;
     }
 };
+
+module.exports = Cookie
