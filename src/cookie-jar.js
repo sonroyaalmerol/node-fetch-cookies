@@ -1,7 +1,7 @@
 const RNFS = require("react-native-fs");
 const url = require("url");
-const Cookie = require("./cookie.mjs");
-const { paramError, CookieParseError } = require("./errors.mjs");
+const Cookie = require("./cookie.js");
+const { paramError, CookieParseError } = require("./errors.js");
 
 class CookieJar {
     constructor(file, flags = "rw", cookies, cookieIgnoreCallback) {

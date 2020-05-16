@@ -1,7 +1,7 @@
 const _fetch = require("node-fetch");
-const CookieJar = require("./cookie-jar.mjs");
-const Cookie = require("./cookie.mjs");
-const { paramError, CookieParseError } = require("./errors.mjs");
+const CookieJar = require("./cookie-jar.js");
+const Cookie = require("./cookie.js");
+const { paramError, CookieParseError } = require("./errors.js");
 
 const fetch = async (cookieJars, url, options) => {
     let cookies = "";
