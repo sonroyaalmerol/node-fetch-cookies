@@ -3,7 +3,7 @@ const CookieJar = require("./cookie-jar.js");
 const Cookie = require("./cookie.js");
 const { paramError, CookieParseError } = require("./errors.js");
 
-const fetch = async (cookieJars, url, options) => {
+const __fetch = async (cookieJars, url, options) => {
     let cookies = "";
     const addValidFromJars = jars => {
         // since multiple cookie jars can be passed, filter duplicates by using a set of cookie names
@@ -33,7 +33,13 @@ const fetch = async (cookieJars, url, options) => {
         options.headers.cookie = cookies.slice(0, -2);
     }
     var opts = { ...options, redirect: 'manual' }
-    const result = await _fetch(url, opts);
+    var result = null
+    if (typeof navigator != 'undefined' && navigator.product == 'ReactNative') {
+        // I'm in react-native
+        result = await fetch(url, opts);
+    } else {
+        result = await _fetch(url, opts);
+    }
     // I cannot use headers.get() here because it joins the cookies to a string
     cookies = result.headers[Object.getOwnPropertySymbols(result.headers)[0]]["set-cookie"];
     if(cookies && cookieJars) {
@@ -58,10 +64,10 @@ const fetch = async (cookieJars, url, options) => {
             // we'll hijack it for our internal bookkeeping.
             follow: options.follow !== undefined ? options.follow - 1 : undefined
         })
-        return fetch(cookieJars, result.headers.get('location'), optsForGet)
+        return __fetch(cookieJars, result.headers.get('location'), optsForGet)
     } else {
         return result
     }
 }
 
-module.exports = {fetch, CookieJar, Cookie, CookieParseError};
+module.exports = {fetch: __fetch, CookieJar, Cookie, CookieParseError};
